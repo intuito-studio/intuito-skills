@@ -37,6 +37,10 @@ Update later with `npx skills@latest update`.
 
 - **[write-skill](skills/write-skill/SKILL.md)**: Write or revise an agent skill (a SKILL.md folder) so that any agent can find it, trigger it at the right moment, and follow it to a correct result.
 
+### Research
+
+- **[principle-research](skills/principle-research/SKILL.md)**: Research a topic on the web and write a cited principles brief, in which every claim was checked against the page it cites.
+
 <!-- skills:end -->
 
 ## Contributing a skill

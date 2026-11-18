@@ -5,6 +5,11 @@
     "blurb": "Skills for building and maintaining agent skills and workflows."
   },
   {
+    "id": "research",
+    "label": "Research",
+    "blurb": "Finding, checking and summarising what is known before a decision."
+  },
+  {
     "id": "engineering",
     "label": "Engineering",
     "blurb": "Writing, reviewing and shipping code."
