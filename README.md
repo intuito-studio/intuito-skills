@@ -41,6 +41,11 @@ Update later with `npx skills@latest update`.
 
 - **[principle-research](skills/principle-research/SKILL.md)**: Research a topic on the web and write a cited principles brief, in which every claim was checked against the page it cites.
 
+### Design
+
+- **[og-image-audit](skills/og-image-audit/SKILL.md)**: Audit social share images (og:image and twitter:image) and report every failure with its numbers.
+- **[og-image-create](skills/og-image-create/SKILL.md)**: Create a social share card (og:image), 1200×630, that still reads when comment threads and message apps crop it to a square.
+
 <!-- skills:end -->
 
 ## Contributing a skill

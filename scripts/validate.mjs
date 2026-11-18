@@ -70,6 +70,9 @@ for (const name of names) {
     } catch (e) { err(where, `site/content/${name}.json is not valid JSON: ${e.message}`); }
   }
 
+  // The skill's share card for the website.
+  if (!existsSync(join(ROOT, 'site', 'public', 'og', `${name}.png`))) err(where, `has no share card at site/public/og/${name}.png. Run: node scripts/og-cards.mjs`);
+
   const bodyLines = body.split('\n').length;
   if (!body.trim()) err(where, 'SKILL.md has no body.');
   if (bodyLines > 500) err(where, `SKILL.md body is ${bodyLines} lines; the limit is 500. Move reference material to a sibling file.`);

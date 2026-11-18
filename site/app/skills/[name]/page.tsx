@@ -18,7 +18,15 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
     title: skill.name,
     description: skill.summary,
     alternates: { canonical: `/skills/${skill.name}/` },
-    openGraph: { title: `${skill.name} · Intuito Skills`, description: skill.summary, url: `/skills/${skill.name}/`, type: 'article' },
+    openGraph: {
+      title: `${skill.name} · Intuito Skills`,
+      description: skill.summary,
+      url: `/skills/${skill.name}/`,
+      type: 'article',
+      siteName: 'Intuito Skills',
+      images: [{ url: `/og/${skill.name}.png`, width: 1200, height: 630 }],
+    },
+    twitter: { card: 'summary_large_image', images: [`/og/${skill.name}.png`] },
   };
 };
 

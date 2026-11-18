@@ -13,6 +13,7 @@ scripts/new-skill.mjs         creates a skill folder from the template
 scripts/sync-readme.mjs       rewrites the skill list in README.md
 scripts/validate.mjs          checks every skill; CI runs it on each push and pull request
 scripts/check-deploy.mjs      after a push, waits until the live site serves that commit
+scripts/og-cards.mjs          renders the share cards into site/public/og/ (home and one per skill)
 .claude-plugin/marketplace.json   makes the repo installable as a Claude Code plugin
 domains.json                  the list of domains a skill can belong to
 site/                         the website (Next.js static export, deployed by Netlify)
@@ -33,12 +34,13 @@ The input may be a rough idea, a prompt, notes, or an existing skill from anothe
 6. Test the skill with a fresh agent that has no context, as step 5 of write-skill describes. Keep the request you gave it and what it produced.
 7. Run the same request once more with an agent that does not have the skill. Give it the same tools and the same freedom to create files and run code, so the skill is the only difference. Keep that result too.
 8. Write `site/content/<name>.json` from those two runs (see "The website" below).
-9. Run `node scripts/sync-readme.mjs`, then `node scripts/validate.mjs`, then `npm run build` in `site/`. Fix every reported problem, and report the test result to the user.
-10. Commit only when the user asks. One skill per commit, with the message `Add /<name> skill` or `Update /<name>: <what changed>`.
+9. Run `node scripts/og-cards.mjs` to render the share cards (the home card counts the skills, so it changes too). It needs `npm install` in `site/` and Chrome on the machine.
+10. Run `node scripts/sync-readme.mjs`, then `node scripts/validate.mjs`, then `npm run build` in `site/`. Fix every reported problem, and report the test result to the user.
+11. Commit only when the user asks. One skill per commit, with the message `Add /<name> skill` or `Update /<name>: <what changed>`.
 
 ## When updating a skill
 
-Change the skill, run the two scripts, and re-run the fresh-agent test if the workflow or the description changed. If the behaviour changed, redo the two runs and update `site/content/<name>.json`. Renaming or deleting a skill breaks installs that reference it, so ask the user first.
+Change the skill, run the two scripts, and re-run the fresh-agent test if the workflow or the description changed. If the behaviour changed, redo the two runs and update `site/content/<name>.json`. If the name, domain or "Use when" sentence changed, run `node scripts/og-cards.mjs` again. Renaming or deleting a skill breaks installs that reference it, so ask the user first.
 
 ## The website
 
@@ -75,6 +77,7 @@ The page splits the description's "Use when ..." sentence into a list, so write 
 - No template placeholders, no absolute paths from a personal machine (checked in scripts too; scripts are otherwise not checked, so run them yourself).
 - `metadata.domain` is an id from `domains.json`.
 - `site/content/<name>.json` exists with a demo, a before, an after, and a method.
+- `site/public/og/<name>.png` exists (the skill's share card).
 - The README skill list matches `skills/`.
 
 ## Rules the validator cannot check
