@@ -1,0 +1,18 @@
+{
+  "demo": {
+    "prompt": "Make the share card for the home page of our skills site. The site's theme file is theme.css (use the dark theme). No generated art: use what the page itself offers.",
+    "result": "A 1200×630 card, 83 KB, in the site's own fonts and colours, with its HTML source and the meta tags to add.\n\n![The finished share card](/showcase/og-image-create-after.png)\n\nThe logo, headline and context line sit in the middle column. The four badges sit wholly outside the square, and a real screenshot of the page runs off the bottom. The built-in zone check passed.",
+    "caption": "Real output from an agent with this skill and no other guidance."
+  },
+  "before": {
+    "label": "Same request, no skill",
+    "text": "What a comment thread or a message app shows of the card:\n\n![Square crop of the card made without the skill](/showcase/og-image-create-before-square.png)\n\nThe brand is gone and the headline reads \"t skills we wrote fo\".",
+    "note": "At full width this card looks good: clean, on brand, 67 KB. The fault only shows when a platform crops it to a square."
+  },
+  "after": {
+    "label": "With og-image-create",
+    "text": "The same crop of the card made with the skill:\n\n![Square crop of the card made with the skill](/showcase/og-image-create-after-square.png)\n\nBrand, headline and context line are complete. The badges are dropped whole, as designed.",
+    "note": "The command box loses its side edges in the crop, which the zone rules allow for art."
+  },
+  "method": "One run each, same request, same model (Claude Fable 5.2) and same tools, November 2026. Both crops are the middle 630 px of the 1200×630 file, which is what Facebook comments, Messenger and iMessage show."
+}

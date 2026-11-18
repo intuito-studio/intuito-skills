@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Share card</title>
+<!--
+  A 1200x630 share card. Open at a 1200x630 viewport and screenshot it.
+  Add ?zones to the address to draw the zones over the card.
+  Marked elements:  data-og="must"  logo, headline, context: inside x 315-885, y 24-590
+                    data-og="side"  badges: wholly left of x 280 or right of x 920
+                    data-og="art"   the main visual: may run off the bottom and sides
+                                    (add data-opaque when it is a rectangular screenshot or photo)
+  window.ogCheck() returns the list of failures. An empty list means the zones pass.
+-->
+<style>
+  :root {
+    /* Take these from the project's theme. */
+    --bg: #f6f4ee;
+    --grid: #e6e2d6;
+    --ink: #15130f;
+    --ink-2: #5a554b;
+    --brand: #3b3bd6;
+    --on-brand: #ffffff;
+    --badge-bg: #ffffff;
+    --font: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  /* The project's own font: point this at the font file and put the family first in --font.
+  @font-face { font-family: "Brand"; src: url("fonts/brand.woff2") format("woff2"); font-weight: 100 900; } */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    position: relative; font-family: var(--font); color: var(--ink); background-color: var(--bg);
+    background-image: linear-gradient(var(--grid) 2px, transparent 2px), linear-gradient(90deg, var(--grid) 2px, transparent 2px);
+    background-size: 40px 40px;
+  }
+  /* Poster layout: add class="poster" to <body>. */
+  body.poster { background: var(--brand); color: var(--on-brand); }
+  body.poster .sub { color: var(--on-brand); opacity: .85; }
+  body.poster .em { color: inherit; text-decoration: underline; text-decoration-thickness: 6px; text-underline-offset: 6px; }
+
+  /* Must-read column: x 315 to 885. */
+  .top { position: absolute; left: 315px; width: 570px; top: 30px; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 26px; white-space: nowrap; }
+  .logo img { height: 42px; }
+  .big { margin-top: 6px; font-weight: 800; font-size: 104px; line-height: 1.02; letter-spacing: -.05em; white-space: nowrap; color: var(--brand); }
+  .headline { margin-top: 12px; width: 570px; font-weight: 800; line-height: 1.06; letter-spacing: -.025em; text-wrap: balance; }
+  .em { color: var(--brand); }
+  .sub { margin-top: 10px; max-width: 570px; font-weight: 700; font-size: 22px; line-height: 1.3; color: var(--ink-2); text-wrap: balance; }
+
+  /* Extras: two per side, wholly outside x 280 to 920. */
+  .badge { position: absolute; z-index: 3; max-width: 200px; border: 3px solid var(--ink); border-radius: 18px; padding: 9px 16px 10px; background: var(--badge-bg); color: var(--ink); }
+  .badge b { display: block; font-size: 30px; font-weight: 800; line-height: 1.1; letter-spacing: -.02em; white-space: nowrap; }
+  .badge span { display: block; font-size: 16px; font-weight: 700; line-height: 1.25; margin-top: 2px; }
+  .s0 { left: 52px; top: 92px; transform: rotate(-5deg); }
+  .s1 { left: 60px; top: 212px; transform: rotate(4deg); }
+  .s2 { right: 52px; top: 92px; transform: rotate(5deg); }
+  .s3 { right: 60px; top: 212px; transform: rotate(-4deg); }
+
+  /* Art: centred, placed just under the text by ogFit(), running off the bottom. */
+  .art { position: absolute; left: 50%; transform: translateX(-50%); z-index: 1; width: 1000px; border-radius: 16px 16px 0 0; }
+
+  /* ?zones overlay */
+  .zone { position: absolute; z-index: 9; pointer-events: none; box-sizing: border-box; }
+  .zone.sq { left: 285px; top: 0; width: 630px; height: 630px; border: 3px dashed #ff2d95; }
+  .zone.must { left: 315px; top: 24px; width: 570px; height: 566px; border: 2px solid #00b8d4; }
+  .zone.strip { left: 0; width: 1200px; background: rgba(255, 45, 149, .25); }
+</style>
+</head>
+<body>
+  <div class="top">
+    <div class="logo" data-og="must"><!-- <img src="logo.svg" alt=""> -->Brand name</div>
+    <!-- Number layout only: <div class="big" data-og="must">1,284</div>
+         Under a big line the headline may be smaller: set data-size="36" data-min="36" on it. -->
+    <div class="headline" data-og="must" data-size="54">The page's headline, with <span class="em">two words</span> picked out</div>
+    <div class="sub" data-og="must">One line of context from the page</div>
+  </div>
+
+  <div class="badge s0" data-og="side"><b>12 min</b><span>label from the page</span></div>
+  <div class="badge s1" data-og="side"><b>4.8★</b><span>label from the page</span></div>
+  <div class="badge s2" data-og="side"><b>30+</b><span>label from the page</span></div>
+  <div class="badge s3" data-og="side"><b>Free</b><span>label from the page</span></div>
+
+  <!-- The main visual: a real screenshot, the article's image, or art with a transparent background.
+       data-gap: pixels between the text and the art. data-min-top: never place the art above this y.
+       data-subject="x0,y0,x1,y1": where the main subject (a face, the product) sits, as fractions of the
+       artwork from 0 to 1, for example "0.35,0.05,0.65,0.6". The check keeps that box on the canvas and
+       inside the square. data-latest-top: optional y limit for this artwork.
+       Add data-opaque for a rectangular screenshot or photo, so the check flags a badge that covers it;
+       then narrow the art (about 680px) or move the badges so they clear it. -->
+  <img class="art" data-og="art" data-gap="16" data-min-top="0" src="visual.png" alt="">
+
+<script>
+  const W = 1200, H = 630;
+  const MUST = { x0: 315, x1: 885, y0: 24, y1: 590 };
+  const SIDE = { left: 280, right: 920 };
+  const SQUARE = { x0: 285, x1: 915 };
+  const MIN_HEADLINE = 46, MAX_LINES = 3;
+
+  // Shrinks the headline until it fits in three lines, then places the art under the text.
+  window.ogFit = async () => {
+    await document.fonts.ready;
+    await Promise.all([...document.images].map((i) => i.decode().catch(() => null)));
+    const h = document.querySelector('.headline');
+    if (h) {
+      let size = Number(h.dataset.size || 54);
+      const min = Number(h.dataset.min || MIN_HEADLINE);
+      const lineHeight = parseFloat(getComputedStyle(h).lineHeight) / parseFloat(getComputedStyle(h).fontSize) || 1.06;
+      const tooBig = () => h.scrollWidth > h.clientWidth + 1 || h.getBoundingClientRect().height > size * lineHeight * MAX_LINES + 2;
+      h.style.fontSize = size + 'px';
+      while (tooBig() && size > min) { size -= 1; h.style.fontSize = size + 'px'; }
+      h.dataset.floor = String(min);
+      h.dataset.fits = String(!tooBig());
+      h.dataset.finalSize = String(size);
+    }
+    for (const b of document.querySelectorAll('.badge b')) {
+      let s = 30;
+      while (b.scrollWidth > b.clientWidth + 1 && s > 20) { s -= 1; b.style.fontSize = s + 'px'; }
+    }
+    const top = document.querySelector('.top');
+    const art = document.querySelector('.art');
+    if (top && art) {
+      const y = Math.max(Number(art.dataset.minTop || 0), top.getBoundingClientRect().bottom + Number(art.dataset.gap || 16));
+      art.style.top = Math.round(y) + 'px';
+    }
+  };
+
+  // Measures every marked element against its zone. Returns a list of failure strings.
+  window.ogCheck = async () => {
+    await window.ogFit();
+    const fails = [];
+    window.ogNotes = [...document.querySelectorAll('[data-og="art"]:not([data-subject])')].length
+      ? ['the art has no data-subject, so the check cannot tell whether its main subject survives: look at the square crop'] : [];
+    for (const e of document.querySelectorAll('[data-og]')) {
+      const r = e.getBoundingClientRect();
+      const box = [r.left, r.top, r.right, r.bottom].map(Math.round);
+      const name = (e.className || e.tagName.toLowerCase()) + ' [' + box.join(',') + ']';
+      const overflow = e.tagName !== 'IMG' && e.scrollWidth > e.clientWidth + 1;
+      const kind = e.dataset.og;
+      if (kind === 'must') {
+        if (r.left < MUST.x0 || r.right > MUST.x1) fails.push(name + ': must be read, but leaves x ' + MUST.x0 + '-' + MUST.x1 + ', so the square crop cuts it');
+        if (r.top < MUST.y0 || r.bottom > MUST.y1) fails.push(name + ': within the strip X trims (keep between y ' + MUST.y0 + ' and ' + MUST.y1 + ')');
+        if (overflow) fails.push(name + ': text overflows its box');
+        if (e.dataset.fits === 'false') fails.push(name + ': headline does not fit in ' + MAX_LINES + ' lines at ' + (e.dataset.floor || MIN_HEADLINE) + 'px; shorten the copy');
+      } else if (kind === 'side') {
+        if (!(r.right <= SIDE.left || r.left >= SIDE.right)) fails.push(name + ': badge crosses into the square (keep it wholly left of x ' + SIDE.left + ' or right of x ' + SIDE.right + ')');
+        if (r.left < 0 || r.right > W || r.top < 0 || r.bottom > H) fails.push(name + ': badge is cut by the canvas edge');
+        if (overflow) fails.push(name + ': text overflows its box');
+      } else if (kind === 'art') {
+        if (e.tagName === 'IMG' && !e.naturalWidth) fails.push(name + ': image did not load');
+        if (r.right < SQUARE.x0 || r.left > SQUARE.x1) fails.push(name + ': art is wholly outside the square');
+        // data-subject="x0,y0,x1,y1": where the main subject (a face, the product) is, as fractions of the artwork.
+        if (e.dataset.subject) {
+          const [fx0, fy0, fx1, fy1] = e.dataset.subject.split(',').map(Number);
+          const s = { x0: r.left + fx0 * r.width, y0: r.top + fy0 * r.height, x1: r.left + fx1 * r.width, y1: r.top + fy1 * r.height };
+          const at = ' [' + [s.x0, s.y0, s.x1, s.y1].map(Math.round).join(',') + ']';
+          if (s.x0 < SQUARE.x0 || s.x1 > SQUARE.x1) fails.push(name + ': the main subject' + at + ' is cut by the square crop (keep it between x ' + SQUARE.x0 + ' and ' + SQUARE.x1 + ')');
+          if (s.y0 < 0 || s.y1 > H) fails.push(name + ': the main subject' + at + ' runs off the canvas; shorten the text, or make the art smaller');
+        }
+        if (e.dataset.latestTop && r.top > Number(e.dataset.latestTop)) fails.push(name + ': art starts at y ' + Math.round(r.top) + ', below the limit set for this artwork (' + e.dataset.latestTop + ')');
+      }
+    }
+    // A badge may float over the empty corner of a transparent drawing, but not over a rectangular
+    // screenshot or photo. Mark those with data-opaque.
+    const arts = [...document.querySelectorAll('[data-og="art"][data-opaque]')].map((e) => e.getBoundingClientRect());
+    for (const e of document.querySelectorAll('[data-og="side"]')) {
+      const r = e.getBoundingClientRect();
+      if (arts.some((a) => r.left < a.right && r.right > a.left && r.top < a.bottom && r.bottom > a.top)) fails.push((e.className || 'badge') + ': overlaps the art; move the badge up, or make the art narrower or lower');
+    }
+    // A web font that failed to load leaves the card in a fallback font.
+    for (const f of document.fonts) if (f.status === 'error') fails.push('font "' + f.family + '" did not load; check the path in @font-face');
+    if (!document.querySelector('[data-og="must"]')) fails.push('no element is marked data-og="must"');
+    return fails;
+  };
+
+  window.ogFit().then(() => {
+    if (!new URLSearchParams(location.search).has('zones')) return;
+    for (const [cls, style] of [['sq', ''], ['must', ''], ['strip', 'top:0;height:24px'], ['strip', 'top:590px;height:40px']]) {
+      const z = document.createElement('i'); z.className = 'zone ' + cls; z.style.cssText = style; document.body.appendChild(z);
+    }
+  });
+</script>
+</body>
+</html>
