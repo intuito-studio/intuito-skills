@@ -6,7 +6,7 @@
   },
   "before": {
     "label": "Same request, no skill",
-    "text": "- A design critique per image: what reads, what is too small, what is cluttered.\n- Found the missing image on the skills site and that the layout references none, and that Vercel's files are 16:9 and about 0.8 MB.\n- Tried the square crop on Vercel's image only, not on the ten files.\n- No fixed limits and no pass or fail per check, so two audits would not be comparable.\n- No list of what it could not check.",
+    "text": "- A design critique per image: what reads, what is too small, what is cluttered.\n- Found the missing image on the skills site and that the layout references none, and that Vercel's files are 16:9 and about 0.8 MB.\n- Tried the square crop on Vercel's image only, not on the ten files.\n- No fixed limits and no pass or fail per check, so two audits would not be comparable.\n- Free-form report: prose per site and a verdict per file, in an order of its own.",
     "note": "A good critique. It also raised things the skill does not check, such as missing alt text and a missing og:url."
   },
   "after": {

@@ -149,7 +149,7 @@ code { font-family: var(--i-mono); }
 .md li::marker { color: var(--i-ink-3); }
 .md strong { font-weight: 600; }
 .md img { display: block; max-width: 100%; height: auto; border: 1px solid var(--i-line); border-radius: 8px; }
-.sample .md img { max-width: min(100%, 360px); }
+.sample .md img { max-height: 360px; width: auto; }
 .md code { font-size: 0.86em; background: var(--i-bg-2); border: 1px solid var(--i-line); border-radius: 5px; padding: 1px 5px; overflow-wrap: anywhere; }
 .box .md code, .demo .md code, .sample .md code { background: var(--i-bg); }
 .md pre { margin: 0 0 20px; padding: 16px; background: var(--i-bg-2); border: 1px solid var(--i-line); border-radius: 10px; overflow-x: auto; }

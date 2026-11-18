@@ -14,5 +14,5 @@
     "text": "The same crop of the card made with the skill:\n\n![Square crop of the card made with the skill](/showcase/og-image-create-after-square.png)\n\nBrand, headline and context line are complete. The badges are dropped whole, as designed.",
     "note": "The command box loses its side edges in the crop, which the zone rules allow for art."
   },
-  "method": "One run each, same request, same model (Claude Fable 5.2) and same tools, November 2026. Both crops are the middle 630 px of the 1200×630 file, which is what Facebook comments, Messenger and iMessage show."
+  "method": "One run each, same request, same model (Claude Fable 5.2) and same tools, November 2026. Both crops are the middle 630 px of the 1200×630 file: the square a Facebook comment was seen to cut a card to, and an estimate for other apps."
 }
