@@ -1,0 +1,14 @@
+{
+  "name": "intuito",
+  "owner": {
+    "name": "Intuito Studio"
+  },
+  "description": "Agent skills written and used by Intuito Studio.",
+  "plugins": [
+    {
+      "name": "intuito-skills",
+      "source": "./",
+      "description": "Every skill in the Intuito Studio library."
+    }
+  ]
+}
