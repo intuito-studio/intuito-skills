@@ -12,6 +12,7 @@ templates/SKILL.template.md   starting point for a new skill
 scripts/new-skill.mjs         creates a skill folder from the template
 scripts/sync-readme.mjs       rewrites the skill list in README.md
 scripts/validate.mjs          checks every skill; CI runs it on each push and pull request
+scripts/check-deploy.mjs      after a push, waits until the live site serves that commit
 .claude-plugin/marketplace.json   makes the repo installable as a Claude Code plugin
 domains.json                  the list of domains a skill can belong to
 site/                         the website (Next.js static export, deployed by Netlify)
@@ -88,3 +89,7 @@ The page splits the description's "Use when ..." sentence into a list, so write 
 - Do not add skills written by other people unless their licence allows it and the README credits them.
 - Do not add `plugin.json` next to the marketplace file without reading the Claude Code plugin docs on `strict`; a manifest plus component fields in the marketplace entry stops the plugin from loading.
 - Do not push, tag, or open pull requests unless the user asks.
+
+## After a push
+
+Netlify rebuilds the site on every push to `main`. Run `node scripts/check-deploy.mjs` after pushing: it reads `https://skills.intuito.dev/health` until the `commit` there equals `origin/main`, and exits 1 if that does not happen within ten minutes. Report the result to the user. Pass another address as the first argument to check a different deploy.

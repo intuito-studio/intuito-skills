@@ -6,3 +6,14 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# /health answers with the same JSON as /health.json: which commit is live.
+[[redirects]]
+  from = "/health"
+  to = "/health.json"
+  status = 200
+
+[[headers]]
+  for = "/health.json"
+  [headers.values]
+    Cache-Control = "no-store"
