@@ -2,6 +2,8 @@
 name: write-skill
 description: Write or revise an agent skill (a SKILL.md folder) so that any agent can find it, trigger it at the right moment, and follow it to a correct result. Covers scoping the skill to one job, the description that decides whether it ever loads, the body structure, splitting long reference into sibling files, and a test with a fresh agent. Use when creating a new skill, turning a workflow, prompt, or set of notes into a skill, fixing a skill that does not trigger or gives uneven results, or reviewing a skill before publishing it.
 license: MIT
+metadata:
+  domain: "agents"
 ---
 
 # Writing a skill

@@ -32,7 +32,11 @@ Update later with `npx skills@latest update`.
 ## Skills
 
 <!-- skills:start -->
+
+### Agent tooling
+
 - **[write-skill](skills/write-skill/SKILL.md)**: Write or revise an agent skill (a SKILL.md folder) so that any agent can find it, trigger it at the right moment, and follow it to a correct result.
+
 <!-- skills:end -->
 
 ## Contributing a skill
@@ -43,6 +47,14 @@ The standard every skill here follows is itself a skill: [write-skill](skills/wr
 node scripts/new-skill.mjs my-skill   # create skills/my-skill/SKILL.md from the template
 node scripts/sync-readme.mjs          # refresh the list above
 node scripts/validate.mjs             # check every skill; CI runs the same check
+```
+
+## Website
+
+`site/` is the website: one page per skill with a demo and a before and after, built from the files in this repo.
+
+```bash
+cd site && npm install && npm run dev
 ```
 
 ## License

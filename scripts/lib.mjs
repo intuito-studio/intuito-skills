@@ -10,6 +10,8 @@ export const NAME_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 export const LIST_START = '<!-- skills:start -->';
 export const LIST_END = '<!-- skills:end -->';
 
+export const DOMAINS = JSON.parse(readFileSync(join(ROOT, 'domains.json'), 'utf8'));
+
 export function skillDirs() {
   if (!existsSync(SKILLS_DIR)) return [];
   return readdirSync(SKILLS_DIR)
@@ -84,11 +86,23 @@ export function summary(description) {
   return (m ? m[1] : description).trim();
 }
 
+// The README list, grouped by the domain each skill declares in metadata.domain.
 export function readmeListBlock() {
-  const rows = skillDirs().map((name) => {
+  const skills = skillDirs().map((name) => {
     const s = readSkill(name);
-    const d = s && typeof s.data.description === 'string' ? summary(s.data.description) : '';
-    return `- **[${name}](skills/${name}/SKILL.md)**: ${d}`;
+    return {
+      name,
+      domain: s?.data.metadata?.domain?.value ?? '',
+      line: `- **[${name}](skills/${name}/SKILL.md)**: ${s && typeof s.data.description === 'string' ? summary(s.data.description) : ''}`,
+    };
   });
-  return [LIST_START, ...rows, LIST_END].join('\n');
+  const out = [LIST_START];
+  for (const d of DOMAINS) {
+    const rows = skills.filter((s) => s.domain === d.id);
+    if (rows.length) out.push('', `### ${d.label}`, '', ...rows.map((r) => r.line));
+  }
+  const rest = skills.filter((s) => !DOMAINS.some((d) => d.id === s.domain));
+  if (rest.length) out.push('', '### Other', '', ...rest.map((r) => r.line));
+  out.push('', LIST_END);
+  return out.join('\n');
 }

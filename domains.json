@@ -1,0 +1,32 @@
+[
+  {
+    "id": "agents",
+    "label": "Agent tooling",
+    "blurb": "Skills for building and maintaining agent skills and workflows."
+  },
+  {
+    "id": "engineering",
+    "label": "Engineering",
+    "blurb": "Writing, reviewing and shipping code."
+  },
+  {
+    "id": "design",
+    "label": "Design",
+    "blurb": "Interface design, motion and visual polish."
+  },
+  {
+    "id": "creative",
+    "label": "Creative",
+    "blurb": "Brand art, imagery and video."
+  },
+  {
+    "id": "marketing",
+    "label": "Marketing",
+    "blurb": "Campaigns, content and growth."
+  },
+  {
+    "id": "operations",
+    "label": "Operations",
+    "blurb": "Running a studio: clients, delivery and admin."
+  }
+]

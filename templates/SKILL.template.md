@@ -2,6 +2,8 @@
 name: REPLACE-with-folder-name
 description: REPLACE. Part 1, what it does, starting with a verb, and what it produces. Part 2, "Use when ..." with the situations and phrases a user would say. Part 3, only when neighbouring skills exist, "For X use other-skill" for each one.
 license: MIT
+metadata:
+  domain: "REPLACE with an id from domains.json"
 ---
 
 # REPLACE with a title

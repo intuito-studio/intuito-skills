@@ -3,7 +3,7 @@
 // Usage: node scripts/validate.mjs            exit 0 = all pass, 1 = at least one error
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve, relative, sep } from 'node:path';
-import { ROOT, SKILLS_DIR, SPEC_KEYS, NAME_RE, LIST_START, LIST_END, skillDirs, parseSkill, readmeListBlock } from './lib.mjs';
+import { ROOT, SKILLS_DIR, SPEC_KEYS, NAME_RE, LIST_START, LIST_END, DOMAINS, skillDirs, parseSkill, readmeListBlock } from './lib.mjs';
 
 const problems = [];
 const err = (where, msg) => problems.push(`${where}: ${msg}`);
@@ -52,6 +52,22 @@ for (const name of names) {
     else for (const [k, v] of Object.entries(data.metadata)) {
       if (/^(true|false|null|~|-?\d+(\.\d+)?)$/i.test(v.raw)) err(where, `metadata.${k} must be a string. Write it in quotes: "${v.raw}".`);
     }
+  }
+
+  const domain = typeof data.metadata === 'object' ? data.metadata?.domain?.value : undefined;
+  if (!domain) err(where, `frontmatter needs metadata.domain, one of: ${DOMAINS.map((x) => x.id).join(', ')} (see domains.json).`);
+  else if (!DOMAINS.some((x) => x.id === domain)) err(where, `metadata.domain "${domain}" is not in domains.json. Use one of: ${DOMAINS.map((x) => x.id).join(', ')}, or add the domain there first.`);
+
+  // The website's demo and before/after for this skill.
+  const showcase = join(ROOT, 'site', 'content', `${name}.json`);
+  if (!existsSync(showcase)) err(where, `has no site/content/${name}.json (the demo and before/after shown on the website). See AGENTS.md.`);
+  else {
+    try {
+      const sc = JSON.parse(readFileSync(showcase, 'utf8'));
+      if (!sc.demo?.prompt || !sc.demo?.result) err(where, `site/content/${name}.json needs demo.prompt and demo.result.`);
+      for (const k of ['before', 'after']) if (!sc[k]?.label || !sc[k]?.text) err(where, `site/content/${name}.json needs ${k}.label and ${k}.text.`);
+      if (!sc.method) err(where, `site/content/${name}.json needs "method": one sentence on how the before and after were produced.`);
+    } catch (e) { err(where, `site/content/${name}.json is not valid JSON: ${e.message}`); }
   }
 
   const bodyLines = body.split('\n').length;

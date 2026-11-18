@@ -15,4 +15,4 @@ if (existsSync(dir)) { console.error(`skills/${name} already exists.`); process.
 const template = readFileSync(join(ROOT, 'templates', 'SKILL.template.md'), 'utf8');
 mkdirSync(dir, { recursive: true });
 writeFileSync(join(dir, 'SKILL.md'), template.replace('REPLACE-with-folder-name', name));
-console.log(`Created skills/${name}/SKILL.md\nNext: replace every REPLACE in it, then run: node scripts/sync-readme.mjs && node scripts/validate.mjs`);
+console.log(`Created skills/${name}/SKILL.md\nNext: replace every REPLACE in it, add site/content/${name}.json (see AGENTS.md), then run: node scripts/sync-readme.mjs && node scripts/validate.mjs`);
