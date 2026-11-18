@@ -1,0 +1,18 @@
+{
+  "demo": {
+    "prompt": "Audit the share images in this folder, and also the share image of https://vercel.com/ and of our skills site. Tell me what's wrong with them.",
+    "result": "One table with a measured result per image, then each failure with its number and its fix. Three of its thirteen rows:\n\n| Image or page | Size | File | Square crop | Result |\n| --- | --- | --- | --- | --- |\n| saassy-board.png | 622×326, too small | 115 KB PNG | logo cut: \"Board\"; headline cut on both sides | FAIL |\n| vercel.com og:image | 2400×1350, 1.78:1 | 827 KB PNG | ok: nothing cut, but a logo with no words | FAIL |\n| the skills site | no image | no image | no image | FAIL |\n\nFor the page with no image it named the cause from the site's source: the layout sets `openGraph` with no `images`, and the skill pages set their own `openGraph`, so each needs its own image.",
+    "caption": "Real output, shortened. 10 files and 2 pages, about 4 minutes."
+  },
+  "before": {
+    "label": "Same request, no skill",
+    "text": "- A design critique per image: what reads, what is too small, what is cluttered.\n- Found the missing image on the skills site and that the layout references none, and that Vercel's files are 16:9 and about 0.8 MB.\n- Tried the square crop on Vercel's image only, not on the ten files.\n- No fixed limits and no pass or fail per check, so two audits would not be comparable.\n- No list of what it could not check.",
+    "note": "A good critique. It also raised things the skill does not check, such as missing alt text and a missing og:url."
+  },
+  "after": {
+    "label": "With og-image-audit",
+    "text": "- Every image measured against the same limits, with the number in each finding: 1200×630, 1.91:1, 300 KB.\n- The square crop checked on every image: six of the ten files have text cut by it, quoted as it would read (\"Board\", \"gelog\", \"Aft\").\n- Says which line of the site's source leaves the image out, and that the skill pages need their own.\n- One table, then failures, warnings, review items and what was not checked.\n- Says the files are captures, so their size may not be the real image's.",
+    "note": "It judges crops and limits, not taste. For a design critique, the unaided review said more."
+  },
+  "method": "One run each, same request, same model (Claude Fable 5.2) and same tools, November 2026. The files were screenshots of share cards collected for research, plus two live pages."
+}
