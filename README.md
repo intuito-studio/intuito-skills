@@ -39,7 +39,7 @@ Update later with `npx skills@latest update`.
 
 ### Research
 
-- **[principle-research](skills/principle-research/SKILL.md)**: Research a topic on the web and write a cited principles brief, in which every claim was checked against the page it cites.
+- **[principle-research](skills/principle-research/SKILL.md)**: Study a domain on the web before designing or building in it, so the result carries what practitioners know and does not come out generic.
 
 ### Design
 

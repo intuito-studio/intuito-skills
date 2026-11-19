@@ -19,7 +19,7 @@ Prefer authoritative sources even when search ranks them lower. Search engines r
 - For each facet, vary the query shape: "X principles", "X best practices", "X anti-patterns", "why X fails", "X problems reddit", and `site:` queries against the official domains.
 - The starting sources you were given are a head start, not the search. Still run the searches, because the authorities that were not listed are the ones that get missed.
 - Run two or three searches before fetching anything. Then fetch the three to five most promising pages, and more only where gaps remain.
-- If a fetch fails or the page needs JavaScript, try another fetch tool if one is available. If the page still cannot be read, do not cite it.
+- If a fetch fails or the page needs JavaScript, try another fetch tool if one is available. If the page still cannot be read, do not cite it. Do not disguise the client (a false user agent, for example) to get past a block: a site that refuses every honest fetch tool stays unread, and goes in the list of what could not be covered.
 - After each batch, write down what was learned, what is still missing, and what comes next.
 - Stop when the facet has three or more solid sources, when the last two searches returned mostly what is already known, or when the effort budget is spent. List what could not be settled as gaps.
 

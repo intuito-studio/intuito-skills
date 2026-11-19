@@ -1,18 +1,18 @@
 {
   "demo": {
-    "prompt": "Research the principles of empty states in web app interfaces: what makes a good one, what makes a bad one, and what people struggle with. Quick depth is enough.",
-    "result": "A brief of 29 claims from 17 sources, each claim ending in its source numbers and a confidence label. Its header and two entries:\n\n*Researched: 2026-11-18 · Depth: quick · Mode: subagents · 17 sources*\n\n**Method:** three researcher agents, one per facet, then three separate auditor agents that saw only each claim, its quote and its URLs and fetched every cited page again. 30 claims were recorded; 29 were audited confirmed and 1 weak. Claims dropped by the audit: 0.\n\n- **Empty states come in types by cause, and each type needs different content.** Carbon groups them into three, \"Basic empty states for first use, user action confirmation, and error management\", with a goal for each. [2][4] (established)\n- **\"Empty\" is decided from the row count alone, so the empty state renders while data is still loading.** A bug report on a React table library says the table body \"only checks for empty rows (!rows.length) but doesn't consider the isLoading state\". [9][10] (supported)\n\nIt also lists what it could not cover: design systems whose pages would not load, and that each pain point rests on a single report.",
-    "caption": "Real output, shortened. The run took about 12 minutes and used 6 subagents."
+    "prompt": "I'm about to build an admin dashboard for a small online store (orders, revenue, customers). Research it first. Standard depth.",
+    "result": "A brief with 38 principles, 14 anti-patterns and 12 pain points from 56 sources, ending in a 15-item build checklist. Three of its items:\n\n1. Write down one definition for every sales figure, using the gross sales, net sales, total sales ladder, and show the formula in a tooltip on the card. [13][11][17][41]\n6. Make every metric card open the list or report it counts, and put a \"needs action\" block on the home page next to the charts. [10][12][2][19]\n8. Add row checkboxes with a bulk action bar, and keep the selection across paging, search and live refresh. [29][51][54]\n\n*Subagents mode: 6 researchers and 6 auditors. 85 claims audited: 81 confirmed, 4 narrowed, 0 dropped. About 22 minutes.*",
+    "caption": "Real output, shortened. The numbers in brackets are the sources each item cites."
   },
   "before": {
-    "label": "Same request, no skill",
-    "text": "- 27 claims from 9 sources, in about 5 minutes with one agent.\n- 8 of 8 sampled quotes were found on the cited page.\n- The agent checked its own quotes. Two sources could only be paraphrased and are marked as such.\n- Says its \"struggles\" section is the weakest: it comes from what the sources warn about, with no community reports.\n- Sources are named in the text, with no numbered citations.",
-    "note": "Already careful work: it dropped 8 claims it could not trace to a page it had read, and said so."
+    "label": "Same build request, no research",
+    "text": "\"Build me an admin dashboard for a small online store. Show me orders, revenue and customers.\"\n\n![Dashboard built without research](/showcase/principle-research-before.jpg)\n\n13 of 20 professional details. It shows numbers, with search, sorting, paging and dark mode.",
+    "note": "Already a decent dashboard, built in about 5 minutes. Adding one sentence, \"research how professional store admins work first\", scored 16 of 20 in about 12 minutes, so much of the gain is cheap."
   },
   "after": {
-    "label": "With principle-research",
-    "text": "- 29 claims from 17 sources, in about 12 minutes with 6 subagents.\n- 8 of 8 sampled quotes were found on the cited page.\n- Separate auditor agents re-fetched every citation and gave each claim a verdict: 29 confirmed, 1 weak.\n- Pain points come from real reports: GitHub issues, Hacker News and UX Stack Exchange threads.\n- Every claim has numbered sources and a confidence label, and the method and gaps are stated.",
-    "note": "Citation accuracy was the same in this test. The skill added breadth, an independent audit and a traceable format, for more than twice the time."
+    "label": "Built from the principle-research brief",
+    "text": "The same request, with the brief to read first.\n\n![Dashboard built from the brief](/showcase/principle-research-after.jpg)\n\n19 of 20. It adds how each number is counted, a \"needs action now\" list, separate payment and fulfilment status, a side panel per order, bulk actions, CSV export, saved views, undo and an activity log.",
+    "note": "Neither build has a command palette: no source for it passed the audit, so the brief left it out and said so. The build took about 18 minutes."
   },
-  "method": "One run each, same request, same model (Claude Fable 5.2) and same tools, November 2026; the only difference was the skill folder. A third agent then re-fetched the first 8 quoted claims of each brief and checked the quotes against the pages."
+  "method": "One run each, same request, same model (Claude Fable 5.2) and same tools, November 2026. The second build was also given the brief from a full run. The skill now also has a light run of about 3 minutes for ordinary builds, which was tested for its checklist but not scored this way. The 20 details were listed before either build was opened."
 }
