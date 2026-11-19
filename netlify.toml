@@ -3,6 +3,9 @@
   base = "site"
   command = "npm run build"
   publish = "out"
+  # With a base directory, Netlify skips a build when nothing under it changed. The site also reads
+  # skills/ and domains.json, so build when any of them changed. Exit 1 means "build".
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ../skills ../domains.json ../netlify.toml"
 
 [build.environment]
   NODE_VERSION = "22"
