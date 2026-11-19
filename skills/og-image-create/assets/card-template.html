@@ -59,6 +59,18 @@
   /* Art: centred, placed just under the text by ogFit(), running off the bottom. */
   .art { position: absolute; left: 50%; transform: translateX(-50%); z-index: 1; width: 1000px; border-radius: 16px 16px 0 0; }
 
+  /* Object layout on a dark card: <div class="art blend"> around a picture shot on black. "screen"
+     makes the black fall away. Keep the blend on this outer element. */
+  .art.blend { mix-blend-mode: screen; border-radius: 0; }
+  .art.blend img { display: block; width: 100%; height: auto; mix-blend-mode: screen; }
+  /* Out of the screen: a framed panel the object crosses. The picture is laid twice: .in is clipped
+     to the panel, .out to everything above the panel's top edge. Set the three numbers in the markup. */
+  .art .frame { position: absolute; bottom: -40px; border: 1.5px solid var(--brand); border-bottom: 0; border-radius: 18px 18px 0 0; background: rgba(255, 255, 255, .04); }
+  .art img.out { position: absolute; left: 0; top: 0; }
+  /* The real logo, placed on a spot the art left empty. left and top are the centre of that spot. */
+  .art .onart { position: absolute; transform: translate(-50%, -50%); filter: drop-shadow(0 0 16px var(--brand)); }
+  .art .onart img, .art .onart svg { display: block; width: 100%; height: auto; }
+
   /* ?zones overlay */
   .zone { position: absolute; z-index: 9; pointer-events: none; box-sizing: border-box; }
   .zone.sq { left: 285px; top: 0; width: 630px; height: 630px; border: 3px dashed #ff2d95; }
@@ -88,6 +100,16 @@
        Add data-opaque for a rectangular screenshot or photo, so the check flags a badge that covers it;
        then narrow the art (about 680px) or move the badges so they clear it. -->
   <img class="art" data-og="art" data-gap="16" data-min-top="0" src="visual.png" alt="">
+
+  <!-- Object layout on a dark card, in place of the <img> above. FRAME_TOP is how far down the art the
+       panel's top edge sits (px); INSET is the gap between the art's sides and the panel's sides (px).
+       Leave out .frame and .out, and the clip-path, for an object with no frame.
+  <div class="art blend" data-og="art" data-gap="0" data-subject="0.3,0.02,0.7,0.5" style="width:780px">
+    <div class="frame" style="left:INSETpx;right:INSETpx;top:FRAME_TOPpx"></div>
+    <img class="in" src="object.jpg" alt="" style="clip-path:inset(FRAME_TOPpx INSETpx 0 INSETpx)">
+    <img class="out" src="object.jpg" alt="" style="clip-path:inset(0 0 calc(100% - FRAME_TOPpx) 0)">
+    <div class="onart" style="left:49%;top:26%;width:12%"><img src="logo.svg" alt=""></div>
+  </div> -->
 
 <script>
   const W = 1200, H = 630;

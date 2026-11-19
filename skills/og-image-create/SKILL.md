@@ -17,7 +17,7 @@ The square used here, x 285 to 915, is the middle 630 px of 1200, confirmed by s
 
 ## Hard rules
 
-1. **All lettering is HTML.** An image model draws art only. Generated text comes out misspelt and cannot be translated or updated.
+1. **All lettering is HTML, and the logo is the logo file.** An image model draws art only. Generated text comes out misspelt and cannot be translated or updated, and a generated logo comes out wrong.
 2. **Three zones, three rules.**
    - *Must-read* (logo, headline, the one line of context): wholly inside x 315 to 885 and y 24 to 590.
    - *Extras* (stat badges, chips): wholly outside the square, ending at or before x 280 or starting at or after x 920. The square crop then drops them whole. A badge cut in half is the failure; a badge that is absent is fine. A badge may float over the empty part of a transparent drawing, never over a screenshot or photo, and never over must-read text.
@@ -38,7 +38,7 @@ For each page that gets a card, collect:
 - **The headline:** from the page's own heading or title. One idea, and short enough for three lines at 46 px or more in a 570 px column.
 - **The logo:** the real file, SVG where it exists. A logo that is a text wordmark is set as text in the brand's font.
 - **Colours:** the values from the project's theme or token file. Copy them from the file into the card; do not type them from memory. Do not link the theme file itself, because its page rules fight the card's layout.
-- **Fonts:** the project's own font files, loaded in the card with `@font-face` from a local path. A card in a fallback font is off-brand.
+- **Fonts:** the project's own font files, loaded in the card with `@font-face` from a local path. When the files are not in the project, take them from the live site's stylesheet. A card in a fallback font is off-brand.
 - **Up to four facts** for badges, taken from the page's copy: a number or a short word, and a label for it.
 - **The context line:** may be condensed from the page's own sentences. It may not add a claim the page does not make.
 - **The visual:** a real product screenshot, the article's own image, existing brand art, or art to be generated in step 3.
@@ -63,13 +63,15 @@ Two things reviewers reject most often:
 - **An empty card.** Fill the canvas: one large visual, and badges in the side zones.
 - **A small, whole visual floating in space.** Let the canvas edge crop it, so it reads as part of something larger.
 
+A card can also pass every check and still be plain. If the user calls it boring, or asks for something more graphic or creative, follow "When the card is correct but boring" in LAYOUTS.md: the brand's background layers first, then a drawing in code, then one generated object, then an object that comes out of the screen.
+
 **Done when:** each card has a named layout.
 
 ### 3. Get the art (only if the card needs generated art)
 
 Read [ART-PROMPT.md](ART-PROMPT.md) and write the prompt from its template. It covers what the composition must say for this layout, references, transparent backgrounds and cutting out, the negative prompt, and the colour check afterwards.
 
-Skip this step when a real screenshot or existing art does the job.
+Skip this step when a real screenshot or existing art does the job. For a single object as the hero, read "An object as the hero" there: how to choose it, how to blend it into a dark card without cutting it out, and how to put the real logo inside it.
 
 **Done when:** the art is a file with a transparent background, checked on a contrasting colour, in the brand's style and colours.
 
@@ -128,7 +130,7 @@ Each page needs, with an absolute URL:
 <meta name="twitter:image" content="https://example.com/og/home.png">
 ```
 
-- **Where the file lives:** a public, static path such as `public/og/<page>.png`, one file per page and language.
+- **Where the file lives:** a public, static path such as `public/og/<page>.png`, one file per page and language. A card with photographic art is a `.jpg`; use that name in both image tags.
 - **Replace, do not duplicate:** if the page already has `twitter:card` set to `summary`, change it; two `twitter:card` tags give an undefined result.
 - **Next.js:** set them through `metadata` (`openGraph.images` with `url`, `width`, `height`; `twitter.card` and `twitter.images`), with `metadataBase` set so the URLs come out absolute. A page's `openGraph` metadata replaces the parent's and does not merge with it. A page that sets `openGraph` without `images` ships no image. Set `images` wherever `openGraph` is set.
 - **When the site's code cannot be edited:** hand the user the tags and the file, and say where each goes.
