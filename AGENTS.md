@@ -37,6 +37,7 @@ The input may be a rough idea, a prompt, notes, or an existing skill from anothe
 9. Run `node scripts/og-cards.mjs` to render the share cards (the home card counts the skills, so it changes too). It needs `npm install` in `site/` and Chrome on the machine.
 10. Run `node scripts/sync-readme.mjs`, then `node scripts/validate.mjs`, then `npm run build` in `site/`. Fix every reported problem, and report the test result to the user.
 11. Commit only when the user asks. One skill per commit, with the message `Add /<name> skill` or `Update /<name>: <what changed>`.
+12. After the push and the deploy check, install the skill on the maintainer's machine from GitHub (see "After a push"). The maintainer uses every skill this repo publishes.
 
 ## When updating a skill
 
@@ -94,5 +95,14 @@ The page splits the description's "Use when ..." sentence into a list, so write 
 - Do not push, tag, or open pull requests unless the user asks.
 
 ## After a push
+
+Install or update the published skills on the maintainer's machine, so the maintainer runs exactly what visitors get:
+
+```bash
+npx skills@latest add intuito-studio/intuito-skills -g -s '*' -y   # a new skill
+npx skills@latest update -g -y                                        # a changed skill
+```
+
+Install from GitHub, never by copying the folder: a copy does not update, and it does not test the install path visitors use.
 
 Netlify rebuilds the site on every push to `main`. Run `node scripts/check-deploy.mjs` after pushing: it reads `https://skills.intuito.dev/health` until the `commit` there equals `origin/main`, and exits 1 if that does not happen within ten minutes. Report the result to the user. Pass another address as the first argument to check a different deploy.
